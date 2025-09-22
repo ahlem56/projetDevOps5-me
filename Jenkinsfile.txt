@@ -1,8 +1,11 @@
 pipeline {
     agent any
+
     tools {
-        maven 'Maven'   // must match the Maven installation name in Jenkins Global Tools
+        maven 'Maven'   // Must match Maven installation name in Jenkins
+        jdk 'JDK11'     // Optional, must match Jenkins JDK installation
     }
+
     stages {
         stage('Checkout') {
             steps {
@@ -11,12 +14,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
         stage('Archive') {
@@ -26,6 +29,7 @@ pipeline {
             }
         }
     }
+
     post {
         success { echo 'Build succeeded 🎉' }
         failure { echo 'Build failed ❌' }
